@@ -65,6 +65,6 @@ class OMDB_API:
         full_pages, remainder = divmod(total_results, 10)
         return full_pages + 1 if remainder else full_pages
 
-o = OMDB_API()
-movies = o.search_movies('banana')
-print(movies)
+# o = OMDB_API()
+# movies = o.search_movies('banana')
+# print(movies)
