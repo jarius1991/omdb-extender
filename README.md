@@ -11,7 +11,7 @@ Main goal is to provide following features:
 # Run tips
 To run this project install libraries listed in requirements.txt.
 After that run following command in ./omdb-extender/omdb_project/ directory:
-- python manage.py makemigration
+- python manage.py makemigrations
 - python manage.py migrate
 - python manage.py createcachetable
 
