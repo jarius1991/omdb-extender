@@ -121,7 +121,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Environment variable is alternative
-OMDB_API_KEY = 'daa2c3c6'
+OMDB_API_KEY = "WRITE YOUR API KEY HERE"
 
 CACHES = {
     'default': {
