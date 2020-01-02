@@ -7,7 +7,7 @@ from core import omdb
 
 class TestOmdbApi(SimpleTestCase):
     def setUp(self):
-        self.api = omdb.OMDB_API()
+        self.api = omdb.Omdb_API()
         self.api.OMDB_API_KEY = 'test_api_key'
 
     def test_page_number(self):
@@ -101,7 +101,6 @@ class TestOmdbApi(SimpleTestCase):
     @patch('core.omdb.request.urlopen')
     def test_search_movies_without_genre(self, mock_urlopen):
         from .example_response_body import query_response_pairs, search_without_genre, search_with_genre_drama
-
         # Set what read() should return, it depend on url value passed to urlopen method
         mock_urlopen.side_effect = lambda url: Mock(**{'read.return_value': query_response_pairs[url]})
 

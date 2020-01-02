@@ -1,10 +1,10 @@
 from urllib import parse, request
 import json
 
-# from django.conf import settings
+from django.conf import settings
 
 
-class OMDB_API:
+class Omdb_API:
     OMDB_URL = "http://www.omdbapi.com/?"
     # OMDB_API_KEY = settings.OMDB_API_KEY
     OMDB_API_KEY = 'daa2c3c6'
@@ -64,7 +64,3 @@ class OMDB_API:
         total_results = int(response['totalResults'])
         full_pages, remainder = divmod(total_results, 10)
         return full_pages + 1 if remainder else full_pages
-
-# o = OMDB_API()
-# movies = o.search_movies('banana')
-# print(movies)

@@ -6,6 +6,12 @@ query_response_pairs = {
     'http://www.omdbapi.com/?i=tt5252614&apikey=test_api_key': b'{"Title":"Banana Boy","Year":"2016","Rated":"N/A","Released":"01 Jan 2016","Runtime":"22 min","Genre":"Short, Drama","Director":"Steven Woodburn","Writer":"Steven Woodburn","Actors":"William Oakley, Steve Le Marquand, Eddie Baroo, Maya Stange","Plot":"N/A","Language":"English","Country":"Australia","Awards":"N/A","Poster":"https://m.media-amazon.com/images/M/MV5BMTkwMzU0MDE1OF5BMl5BanBnXkFtZTgwMjU3NTU1NzE@._V1_SX300.jpg","Ratings":[],"Metascore":"N/A","imdbRating":"N/A","imdbVotes":"N/A","imdbID":"tt5252614","Type":"movie","DVD":"N/A","BoxOffice":"N/A","Production":"N/A","Website":"N/A","Response":"True"}',
 }
 
-search_without_genre = [{'Title': 'Banana Boy', 'Year': '2003', 'imdbID': 'tt0431644', 'Type': 'movie', 'Poster': 'N/A', 'Genre': ['Short']}, {'Title': 'Banana Boy', 'Year': '2016', 'imdbID': 'tt5252614', 'Type': 'movie', 'Poster': 'https://m.media-amazon.com/images/M/MV5BMTkwMzU0MDE1OF5BMl5BanBnXkFtZTgwMjU3NTU1NzE@._V1_SX300.jpg', 'Genre': ['Short', 'Drama']}]
+search_without_genre = [{'Title': 'Banana Boy', 'Year': '2003', 'imdbID': 'tt0431644', 'Type': 'movie', 'Poster': 'N/A',
+                         'Genre': ['Short']},
+                        {'Title': 'Banana Boy', 'Year': '2016', 'imdbID': 'tt5252614', 'Type': 'movie',
+                         'Poster': 'https://m.media-amazon.com/images/M/MV5BMTkwMzU0MDE1OF5BMl5BanBnXkFtZTgwMjU3NTU1NzE@._V1_SX300.jpg',
+                         'Genre': ['Short', 'Drama']}]
 
-search_with_genre_drama = [{'Title': 'Banana Boy', 'Year': '2016', 'imdbID': 'tt5252614', 'Type': 'movie', 'Poster': 'https://m.media-amazon.com/images/M/MV5BMTkwMzU0MDE1OF5BMl5BanBnXkFtZTgwMjU3NTU1NzE@._V1_SX300.jpg', 'Genre': ['Short', 'Drama']}]
+search_with_genre_drama = [{'Title': 'Banana Boy', 'Year': '2016', 'imdbID': 'tt5252614', 'Type': 'movie',
+                            'Poster': 'https://m.media-amazon.com/images/M/MV5BMTkwMzU0MDE1OF5BMl5BanBnXkFtZTgwMjU3NTU1NzE@._V1_SX300.jpg',
+                            'Genre': ['Short', 'Drama']}]
