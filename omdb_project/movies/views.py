@@ -1,7 +1,3 @@
-from functools import partial
-
-from django.core.cache import cache
-
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 from rest_framework import viewsets
@@ -67,15 +63,14 @@ class MovieViewSet(viewsets.ViewSet):
     permission_classes = (IsAuthenticated,)
 
     def list(self, request):
-        api = Omdb_API()
         title = request.query_params.get('title')
         genre = request.query_params.get('genre')
         if not title:
             return Response("'title' parameter is required", status=status.HTTP_400_BAD_REQUEST)
         try:
-            movie_list = cache.get_or_set(f'{title},{genre}',
-                                          partial(api.search_movies, title=title, genre=genre),
-                                          timeout=60 * 60)
+            with Omdb_API() as api:
+                movie_list = api.search_movies(title=title, genre=genre)
+
         except Exception as e:
             return Response(f'OMDB API does not work correctly. Original message: {e}',
                             status=status.HTTP_503_SERVICE_UNAVAILABLE)
