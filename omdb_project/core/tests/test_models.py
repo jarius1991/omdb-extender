@@ -24,7 +24,8 @@ class TestModels(TestCase):
         models.MovieToWatch.objects.create(user=self.user_2, movie_id='Id_King_Kong')
 
         self.assertEqual(models.MovieToWatch.objects.all().count(), 2)
-        self.assertRaises(IntegrityError, models.MovieToWatch.objects.create, user=self.user_1, movie_id='Id_King_Kong')
+        self.assertRaises(IntegrityError, models.MovieToWatch.objects.create,
+                          user=self.user_1, movie_id='Id_King_Kong')
 
     def test_favourite_movie_to_watch_to_str(self):
         """Test FavouriteMovie string representation"""
@@ -61,7 +62,8 @@ class TestModels(TestCase):
         unvalid_rating_values = [-10, 0, 11, 100]
 
         for rating in unvalid_rating_values:
-            review = models.Review(user=self.user_1, movie_id='Id_Movie', rating=rating, review="This is nice movie!!!")
+            review = models.Review(user=self.user_1, movie_id='Id_Movie',
+                                   rating=rating, review="This is nice movie!!!")
             self.assertRaises(ValidationError, review.full_clean)
 
     def test_movie_rating_valid_values(self):
@@ -69,5 +71,6 @@ class TestModels(TestCase):
         unvalid_rating_values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
         for rating in unvalid_rating_values:
-            review = models.Review(user=self.user_1, movie_id='Id_Movie', rating=rating, review="This is nice movie!!!")
+            review = models.Review(user=self.user_1, movie_id='Id_Movie',
+                                   rating=rating, review="This is nice movie!!!")
             review.full_clean()

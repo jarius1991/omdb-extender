@@ -61,7 +61,8 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
 class MovieViewSet(viewsets.ViewSet):
     """
-    View to display a list of movies from omdb. Provides the option of filtering the title and genre. Title is required.
+    View to display a list of movies from omdb. Provides the option of filtering the title and genre.
+    Title is required.
     """
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)

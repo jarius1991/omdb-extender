@@ -1,6 +1,6 @@
 from unittest.mock import Mock, patch
 
-from django.test import SimpleTestCase, TestCase
+from django.test import SimpleTestCase
 
 from core import omdb
 
