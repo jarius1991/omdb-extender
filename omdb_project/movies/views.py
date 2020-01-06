@@ -61,7 +61,8 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
 class MovieViewSet(viewsets.ViewSet):
     """
-    View to display a list of movies from omdb. Provides the option of filtering the title and genre. Title is required.
+    View to display a list of movies from omdb. Provides the option of filtering the title and genre.
+    Title is required.
     """
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -85,7 +86,6 @@ class MovieViewSet(viewsets.ViewSet):
             return Response(f'OMDB API does not work correctly. Original message: {e}',
                             status=status.HTTP_503_SERVICE_UNAVAILABLE)
         return Response(self._get_page(movies, page))
-
 
     async def _get_movies(self, title):
         async with aiohttp.ClientSession() as session:
