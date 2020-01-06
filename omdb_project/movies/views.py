@@ -1,4 +1,8 @@
+import asyncio
+import aiohttp
+from django.core.cache import cache
 from django_filters.rest_framework import DjangoFilterBackend
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework import mixins
@@ -65,13 +69,34 @@ class MovieViewSet(viewsets.ViewSet):
     def list(self, request):
         title = request.query_params.get('title')
         genre = request.query_params.get('genre')
+        page = request.query_params.get('page', 1)
         if not title:
             return Response("'title' parameter is required", status=status.HTTP_400_BAD_REQUEST)
         try:
-            with Omdb_API() as api:
-                movie_list = api.search_movies(title=title, genre=genre)
-
+            movies = cache.get(f'movie_{title}')
+            # Get movies if they are not in cache
+            if not movies:
+                movies = asyncio.run(self._get_movies(title=title))
+                cache.set(f'movie_{title}', movies, 60*60*2)
+            # Filter movies if the user has specified a genre
+            if genre:
+                movies = Omdb_API.filter_movies_by_genre(movies=movies, genre=genre)
         except Exception as e:
             return Response(f'OMDB API does not work correctly. Original message: {e}',
                             status=status.HTTP_503_SERVICE_UNAVAILABLE)
-        return Response(movie_list)
+        return Response(self._get_page(movies, page))
+
+
+    async def _get_movies(self, title):
+        async with aiohttp.ClientSession() as session:
+            return await Omdb_API(session).search_movies(title=title)
+
+    def _get_page(self, movies, page, page_size=10):
+        paginator = Paginator(movies, page_size)
+        try:
+            movie_page = paginator.page(page)
+        except PageNotAnInteger:
+            movie_page = paginator.page(1)
+        except EmptyPage:
+            movie_page = paginator.page(paginator.num_pages)
+        return list(movie_page)

@@ -1,4 +1,4 @@
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 
 from django.contrib.auth import get_user_model
 from django.shortcuts import reverse
@@ -7,6 +7,17 @@ from rest_framework.test import APITestCase
 from rest_framework import status
 
 from core.models import FavouriteMovie, MovieToWatch, Review
+
+
+def AsyncMock(*args, **kwargs):
+    """Available in python 3.8.1 in unittest.mock.AsyncMock"""
+    m = MagicMock(*args, **kwargs)
+
+    async def mock_coro(*args, **kwargs):
+        return m(*args, **kwargs)
+
+    mock_coro.mock = m
+    return mock_coro
 
 
 class TestFavouriteMovieViewSetAPI(APITestCase):
@@ -280,15 +291,17 @@ class TestMovieViewSet(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    @patch('movies.views.Omdb_API.search_movies')
-    def test_search(self, mock_search_movies):
-        mock_search_movies.return_value = 'My value'
-
+    @patch('movies.views.Omdb_API')
+    def test_search(self, mock_omdb_api):
+        search_mock = AsyncMock(side_effect=lambda title: [{'Title': 'My value', 'Genre': ['Horror']}])
+        filter_mock = MagicMock(return_value=[{'Title': 'My value', 'Genre': ['Horror']}])
+        mock_omdb_api.return_value.search_movies = search_mock
+        mock_omdb_api.filter_movies_by_genre = filter_mock
         url = reverse('movie:movie-list') + '?title=bird&genre=Horror'
         self.client.force_authenticate(self.user)
 
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        mock_search_movies.assert_called_once_with(genre='Horror', title='bird')
-        self.assertIn('My value', response.data)
+        search_mock.mock.assert_called_once_with(title='bird')
+        self.assertIn('My value', response.data[0].values())
